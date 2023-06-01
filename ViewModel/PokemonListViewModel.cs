@@ -1,12 +1,47 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using maui_pokemon_list.Services;
+using System.Collections.ObjectModel;
 
-namespace maui_pokemon_list.ViewModel
+namespace maui_pokemon_list.ViewModel;
+
+public partial class PokemonListViewModel : BaseViewModel
 {
-    internal class PokemonListViewModel
+    public ObservableCollection<Pokemon> Pokemons { get; } = new();
+    PokemonService pokemonService;
+
+    public PokemonListViewModel(PokemonService pokemonService)
     {
+        this.Title = "Pokemons";
+        this.pokemonService = pokemonService;
+        _ = GetPokemonsAsync();
     }
+
+    [RelayCommand]
+    async Task GetPokemonsAsync()
+    {
+        if(IsBusy) return;
+
+        try
+        {
+            IsBusy = true;
+
+            var pokemons = await pokemonService.GetPokemons();
+
+            if (Pokemons.Count != 0)
+                Pokemons.Clear();
+
+            foreach (var pokemon in pokemons)
+                Pokemons.Add(pokemon);
+
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Unable to get pokemons", ex.Message, "OK");
+        }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+
 }

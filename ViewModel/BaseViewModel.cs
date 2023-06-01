@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace maui_pokemon_list.ViewModel
+namespace maui_pokemon_list.ViewModel;
+
+public partial class BaseViewModel : ObservableObject
 {
-    internal class BaseViewModel
-    {
-    }
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsNotBusy))]
+    bool isBusy;
+
+    [ObservableProperty]
+    string title;
+
+    public bool IsNotBusy => !IsBusy;
 }

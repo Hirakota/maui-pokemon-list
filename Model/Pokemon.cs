@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace maui_pokemon_list.Model;
 
-namespace maui_pokemon_list.Model
+public class Pokemon
 {
-    internal class Pokemon
-    {
-    }
+    public string name { get; set; }
+    public string url { get; set; }
 }
+
