@@ -12,13 +12,12 @@ public partial class PokemonListViewModel : BaseViewModel
     {
         this.Title = "Pokemons";
         this.pokemonService = pokemonService;
-        _ = GetPokemonsAsync();
+        _ = GetPokemons();
     }
 
-    [RelayCommand]
-    async Task GetPokemonsAsync()
+    async Task GetPokemons()
     {
-        if(IsBusy) return;
+        if (IsBusy) return;
 
         try
         {
@@ -43,5 +42,17 @@ public partial class PokemonListViewModel : BaseViewModel
         }
     }
 
+    [RelayCommand]
+    async Task GoToDetails(Pokemon pokemon)
+    {
 
+        if (pokemon == null)
+            return;
+
+
+        await Shell.Current.GoToAsync(nameof(DetailsPage), true, new Dictionary<string, object>
+        {
+            { "Pokemon", pokemon }
+        });
+    }
 }
