@@ -20,10 +20,6 @@ public partial class PokemonDetailsViewModel : BaseViewModel, IQueryAttributable
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
         name = (query["Pokemon"] as Pokemon).name;
-        GetDetails(this.name);
-    }
-
-    public void initData() {
         _ = GetDetails(this.name);
     }
 
@@ -32,8 +28,6 @@ public partial class PokemonDetailsViewModel : BaseViewModel, IQueryAttributable
         try
         {
             IsBusy = true;
-
-            await Task.Delay(2000);
 
             PokemonDetails = await pokemonService.GetPokemonDetails(name);
         }

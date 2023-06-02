@@ -16,12 +16,17 @@
                    HorizontalOptions="Center"
                    Margin="0,0,0,8"/>
             
-            <Image Aspect="AspectFill"
-                        HeightRequest="160"
-                        WidthRequest="160"
-                        HorizontalOptions="Center"
-                        VerticalOptions="Center"
-                        Source="{Binding PokemonDetails.image}"/>
+            <Image HeightRequest="160"
+                   WidthRequest="160"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center">
+                <Image.Source>
+                    <UriImageSource CacheValidity="5"
+                                    CachingEnabled="True"
+                                    Uri="{Binding PokemonDetails.image}"
+                                    />
+                </Image.Source>
+            </Image>
 
             <VerticalStackLayout Padding="10" Spacing="10">
                 <Label Style="{StaticResource SmallLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>

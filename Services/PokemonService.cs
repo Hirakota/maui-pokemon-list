@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using MonkeyCache.FileStore;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace maui_pokemon_list.Services;
 
@@ -14,25 +16,18 @@ public class PokemonService
 
     public async Task<List<Pokemon>> GetPokemons()
     {
-        var json = await httpClient.GetStringAsync(baseUri);
-
         List<Pokemon> pokemonList = new();
 
-        if (!String.IsNullOrEmpty(json))
-        {
-            Dictionary<string, object> rawData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>(baseUri, "getpokemons");
 
-            pokemonList = JsonSerializer.Deserialize<List<Pokemon>>(rawData["results"].ToString());
-        }
+        pokemonList = JsonSerializer.Deserialize<List<Pokemon>>(rawData["results"].ToString());
 
         return pokemonList;
     }
 
     public async Task<PokemonDetailsModel> GetPokemonDetails(string name)
     {
-        var json = await httpClient.GetStringAsync(baseUri + $"/{name}");
-
-        Dictionary<string, object> rawData = JsonSerializer.Deserialize<Dictionary<string, object>>(json);
+        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>($"{baseUri}/{name}", $"{name}/details");
 
         string pokemonName = rawData["name"].ToString();
         int pokemonHeight = JsonSerializer.Deserialize<int>(rawData["height"].ToString());
@@ -51,6 +46,30 @@ public class PokemonService
         PokemonDetailsModel pokemonDetails = new PokemonDetailsModel(pokemonName, pokemonImage, types, pokemonHeight * 10, pokemonWeight / 10);
 
         return pokemonDetails;
+    }
+
+    private async Task<T> GetAsync<T>(string url, string key, int mins = 1, bool forceRefresh = false)
+    {
+        var json = string.Empty;
+
+        if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            json = Barrel.Current.Get<string>(key);
+        else if (!forceRefresh && !Barrel.Current.IsExpired(key))
+            json = Barrel.Current.Get<string>(key);
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                json = await httpClient.GetStringAsync(url);
+
+                Barrel.Current.Add(key, json, TimeSpan.FromMinutes(mins));
+            }
+            return JsonSerializer.Deserialize<T>(json);
+        }
+        catch (Exception ex) {
+            throw ex;
+        }
     }
 }
 
