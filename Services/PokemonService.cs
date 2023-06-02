@@ -28,7 +28,7 @@ public class PokemonService
         return pokemonList;
     }
 
-    public async Task<PokemonDetails> GetPokemonDetails(string name)
+    public async Task<PokemonDetailsModel> GetPokemonDetails(string name)
     {
         var json = await httpClient.GetStringAsync(baseUri + $"/{name}");
 
@@ -48,15 +48,9 @@ public class PokemonService
             types.Add(type);
         }
 
-        PokemonDetails pokemonDetails = new PokemonDetails(pokemonName, pokemonImage, types, pokemonHeight, pokemonWeight);
+        PokemonDetailsModel pokemonDetails = new PokemonDetailsModel(pokemonName, pokemonImage, types, pokemonHeight * 10, pokemonWeight / 10);
 
         return pokemonDetails;
     }
-}
-
-class PokemonResponse
-{
-    public string next { get; set; }
-    public List<Pokemon> results { get; set; }
 }
 

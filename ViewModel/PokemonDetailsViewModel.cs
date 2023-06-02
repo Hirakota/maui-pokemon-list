@@ -1,11 +1,14 @@
-﻿using maui_pokemon_list.Services;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using maui_pokemon_list.Services;
 
 namespace maui_pokemon_list.ViewModel;
 
 public partial class PokemonDetailsViewModel : BaseViewModel, IQueryAttributable
 {
     [ObservableProperty]
-    public PokemonDetails pokemonDetails;
+    public PokemonDetailsModel pokemonDetails;
+
+    private string name;
 
     private PokemonService pokemonService;
 
@@ -16,17 +19,23 @@ public partial class PokemonDetailsViewModel : BaseViewModel, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        Title = (query["Pokemon"] as Pokemon).name;
+        name = (query["Pokemon"] as Pokemon).name;
+        GetDetails(this.name);
     }
 
-    [RelayCommand]
-    async Task GetDetails()
+    public void initData() {
+        _ = GetDetails(this.name);
+    }
+
+    async Task GetDetails(string name)
     {
         try
         {
             IsBusy = true;
 
-            pokemonDetails = await pokemonService.GetPokemonDetails("bulbasaur");
+            await Task.Delay(2000);
+
+            PokemonDetails = await pokemonService.GetPokemonDetails(name);
         }
         catch (Exception ex)
         {

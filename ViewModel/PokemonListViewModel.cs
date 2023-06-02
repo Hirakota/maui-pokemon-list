@@ -50,7 +50,7 @@ public partial class PokemonListViewModel : BaseViewModel
             return;
 
 
-        await Shell.Current.GoToAsync(nameof(DetailsPage), true, new Dictionary<string, object>
+        await Shell.Current.GoToAsync(nameof(DetailsPage), false, new Dictionary<string, object>
         {
             { "Pokemon", pokemon }
         });

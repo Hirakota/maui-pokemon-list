@@ -5,9 +5,30 @@
              xmlns:viewmodel="clr-namespace:maui_pokemon_list.ViewModel"
              x:Class="maui_pokemon_list.View.DetailsPage"
              x:DataType="viewmodel:PokemonDetailsViewModel">
-    <VerticalStackLayout>
-        <Label Text="{Binding Title}"
-               TextColor="black"/>
+    <Grid RowDefinitions="*, Auto">
+        <VerticalStackLayout HorizontalOptions="Center">
+
+            <Label Style="{StaticResource LargeLabel}" 
+                   Grid.Row="1"
+                   TextColor="Black"
+                   FontAttributes="Bold"
+                   Text="{Binding PokemonDetails.name}" 
+                   HorizontalOptions="Center"
+                   Margin="0,0,0,8"/>
+            
+            <Image Aspect="AspectFill"
+                        HeightRequest="160"
+                        WidthRequest="160"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        Source="{Binding PokemonDetails.image}"/>
+
+            <VerticalStackLayout Padding="10" Spacing="10">
+                <Label Style="{StaticResource SmallLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>
+                <Label Style="{StaticResource SmallLabel}" Text="{Binding PokemonDetails.height, StringFormat='Height: {0} cm'}" TextColor="Black"/>
+            </VerticalStackLayout>
+        </VerticalStackLayout>
+
         <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}"
                            HorizontalOptions="Fill"
@@ -15,12 +36,5 @@
                            Color="{StaticResource Primary}"
                            Grid.RowSpan="2"
                            Grid.ColumnSpan="2"/>
-        <Button Text="Get Details" 
-                Command="{Binding GetDetailsCommand}"
-                IsEnabled="{Binding IsNotBusy}"
-                Grid.Row="1"
-                Grid.Column="0"
-                Style="{StaticResource ButtonOutline}"
-                Margin="8"/>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>
