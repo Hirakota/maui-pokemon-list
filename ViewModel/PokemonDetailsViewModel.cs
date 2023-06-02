@@ -19,7 +19,7 @@ public partial class PokemonDetailsViewModel : BaseViewModel, IQueryAttributable
 
     public void ApplyQueryAttributes(IDictionary<string, object> query)
     {
-        name = (query["Pokemon"] as Pokemon).name;
+        name = (query["Pokemon"] as PokemonModel).name;
         _ = GetDetails(this.name);
     }
 

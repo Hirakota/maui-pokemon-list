@@ -1,11 +1,11 @@
 ﻿namespace maui_pokemon_list.Model;
 
-public class Pokemon
+public class PokemonModel
 {
     public string name { get; set; }
     public string url { get; set; }
 
-    public Pokemon(string name, string url)
+    public PokemonModel(string name, string url)
     {
         this.name = name;
         this.url = url;

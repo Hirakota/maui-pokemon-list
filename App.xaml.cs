@@ -1,4 +1,4 @@
-﻿using MonkeyCache.FileStore;
+﻿using MonkeyCache.LiteDB;
 
 namespace maui_pokemon_list;
 
@@ -10,6 +10,6 @@ public partial class App : Application
 
 		Barrel.ApplicationId = AppInfo.PackageName;
 
-		MainPage = new AppShell();
+        MainPage = new AppShell();
 	}
 }

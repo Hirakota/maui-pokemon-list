@@ -5,7 +5,7 @@ namespace maui_pokemon_list.ViewModel;
 
 public partial class PokemonListViewModel : BaseViewModel
 {
-    public ObservableCollection<Pokemon> Pokemons { get; } = new();
+    public ObservableCollection<PokemonModel> Pokemons { get; } = new();
     PokemonService pokemonService;
 
     public PokemonListViewModel(PokemonService pokemonService)
@@ -43,7 +43,7 @@ public partial class PokemonListViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    async Task GoToDetails(Pokemon pokemon)
+    async Task GoToDetails(PokemonModel pokemon)
     {
 
         if (pokemon == null)

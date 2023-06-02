@@ -10,7 +10,7 @@
     <Grid RowDefinitions="*,Auto">
         <ListView ItemsSource="{Binding Pokemons}" Margin="10">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:Pokemon">
+                <DataTemplate x:DataType="model:PokemonModel">
                     <ViewCell>
                         <Frame Style="{StaticResource CardView}">
                             <Frame.GestureRecognizers>
