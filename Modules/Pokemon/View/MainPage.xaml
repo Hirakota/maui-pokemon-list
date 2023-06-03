@@ -1,21 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="maui_pokemon_list.View.MainPage"
+<ContentPage x:Class="maui_pokemon_list.Modules.Pokemon.View.MainPage"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:maui_pokemon_list.Model"
-             xmlns:viewmodel="clr-namespace:maui_pokemon_list.ViewModel"
-             x:DataType="viewmodel:PokemonListViewModel"
-             Title="{Binding Title}">
+             xmlns:entity="clr-namespace:maui_pokemon_list.Modules.Pokemon.Entity"
+             xmlns:presenter="clr-namespace:maui_pokemon_list.Modules.Pokemon.Presenter"
+             x:DataType="presenter:PokemonListPresenter"
+             Title="Pokemon List">
 
     <Grid RowDefinitions="*,Auto">
         <ListView ItemsSource="{Binding Pokemons}" Margin="10">
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="model:PokemonModel">
+                <DataTemplate x:DataType="entity:PokemonModel">
                     <ViewCell>
                         <Frame Style="{StaticResource CardView}">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer 
-                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:PokemonListViewModel}}, Path=GoToDetailsCommand}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type presenter:PokemonListPresenter}}, Path=GoToDetailsCommand}"
                                         CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
                             <Label Text="{Binding name}" TextColor="Black"/>

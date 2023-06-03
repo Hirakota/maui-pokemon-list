@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:model="clr-namespace:maui_pokemon_list.Model"
-             xmlns:viewmodel="clr-namespace:maui_pokemon_list.ViewModel"
-             x:Class="maui_pokemon_list.View.DetailsPage"
-             x:DataType="viewmodel:PokemonDetailsViewModel">
+             xmlns:enitty="clr-namespace:maui_pokemon_list.Modules.Pokemon.Entity"
+             xmlns:presenter="clr-namespace:maui_pokemon_list.Modules.Pokemon.Presenter"
+             x:Class="maui_pokemon_list.Modules.Pokemon.View.DetailsPage"
+             x:DataType="presenter:PokemonDetailsPresenter">
     <Grid RowDefinitions="*, Auto">
         <VerticalStackLayout HorizontalOptions="Center">
 
@@ -29,9 +29,20 @@
             </Image>
 
             <VerticalStackLayout Padding="10" Spacing="10">
-                <Label Style="{StaticResource SmallLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>
-                <Label Style="{StaticResource SmallLabel}" Text="{Binding PokemonDetails.height, StringFormat='Height: {0} cm'}" TextColor="Black"/>
+                <Label Style="{StaticResource MediumLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>
+                <Label Style="{StaticResource MediumLabel}" Text="{Binding PokemonDetails.height, StringFormat='Height: {0} cm'}" TextColor="Black"/>
             </VerticalStackLayout>
+
+            <Label Style="{StaticResource LargeLabel}" Text="Types:" TextColor="Black"/>
+            <CollectionView ItemsSource="{Binding PokemonDetails.types}"
+                            SelectionMode="None" HorizontalOptions="Center">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label Style="{StaticResource MediumLabel}" Text="{Binding}" TextColor="Black"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
         </VerticalStackLayout>
 
         <ActivityIndicator IsVisible="{Binding IsBusy}"

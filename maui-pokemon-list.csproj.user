@@ -10,7 +10,7 @@
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
   <ItemGroup>
-    <MauiXaml Update="View\DetailsPage.xaml">
+    <MauiXaml Update="Modules\Pokemon\View\DetailsPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
   </ItemGroup>

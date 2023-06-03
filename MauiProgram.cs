@@ -1,6 +1,7 @@
-﻿using maui_pokemon_list.Services;
-using maui_pokemon_list.View;
-using Microsoft.Extensions.DependencyInjection;
+﻿using maui_pokemon_list.Modules.Pokemon.Data;
+using maui_pokemon_list.Modules.Pokemon.Iterator;
+using maui_pokemon_list.Modules.Pokemon.Presenter;
+using maui_pokemon_list.Modules.Pokemon.View;
 using Microsoft.Extensions.Logging;
 
 namespace maui_pokemon_list;
@@ -23,10 +24,12 @@ public static class MauiProgram
 #endif
 
 		builder.Services.AddSingleton<PokemonService>();
+		builder.Services.AddSingleton<PokemonIterator>();
+
 		builder.Services.AddTransient<MainPage>();
-		builder.Services.AddTransient<PokemonListViewModel>();
+		builder.Services.AddTransient<PokemonListPresenter>();
 		builder.Services.AddTransient<DetailsPage>();
-		builder.Services.AddTransient<PokemonDetailsViewModel>();
+		builder.Services.AddTransient<PokemonDetailsPresenter>();
 
 		return builder.Build();
 	}

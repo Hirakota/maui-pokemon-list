@@ -1,7 +1,8 @@
-﻿using MonkeyCache.LiteDB;
+﻿using maui_pokemon_list.Modules.Pokemon.Entity;
+using MonkeyCache.LiteDB;
 using System.Text.Json;
 
-namespace maui_pokemon_list.Services;
+namespace maui_pokemon_list.Modules.Pokemon.Data;
 
 public class PokemonService
 {
@@ -15,43 +16,19 @@ public class PokemonService
 
     public async Task<List<PokemonModel>> GetPokemons()
     {
-        Dictionary<string, object> rawData = await GetAsyncNew<Dictionary<string, object>>(baseUri + $"?offset={0}");
+        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>(baseUri + $"?offset={0}");
 
         return DataAdapter.ConvertDictionaryIntoPokemonList(rawData);
     }
 
     public async Task<PokemonDetailsModel> GetPokemonDetails(string name)
     {
-        Dictionary<string, object> rawData = await GetAsyncNew<Dictionary<string, object>>($"{baseUri}/{name}");
+        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>($"{baseUri}/{name}");
 
         return DataAdapter.ConvertDictionaryIntoPokemonDetails(rawData);
     }
 
-    private async Task<T> GetAsync<T>(string url, string key, int mins = 1, bool forceRefresh = false)
-    {
-        var json = string.Empty;
-
-        if (Connectivity.NetworkAccess != NetworkAccess.Internet)
-            json = Barrel.Current.Get<string>(key);
-        else if (!forceRefresh && !Barrel.Current.IsExpired(key))
-            json = Barrel.Current.Get<string>(key);
-
-        try
-        {
-            if (string.IsNullOrWhiteSpace(json))
-            {
-                json = await httpClient.GetStringAsync(url);
-
-                Barrel.Current.Add(key, json, TimeSpan.FromMinutes(mins));
-            }
-            return JsonSerializer.Deserialize<T>(json);
-        }
-        catch (Exception ex) {
-            throw ex;
-        }
-    }
-
-    private async Task<T> GetAsyncNew<T>(string url, bool forceRefresh = false)
+    private async Task<T> GetAsync<T>(string url, bool forceRefresh = false)
     {
         var json = string.Empty;
 
@@ -76,7 +53,7 @@ public class PokemonService
     }
 }
 
-public class DataAdapter
+class DataAdapter
 {
     public static List<PokemonModel> ConvertDictionaryIntoPokemonList(Dictionary<string, object> rawData)
     {

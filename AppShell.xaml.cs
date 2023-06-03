@@ -1,4 +1,6 @@
-﻿namespace maui_pokemon_list;
+﻿using maui_pokemon_list.Modules.Pokemon.View;
+
+namespace maui_pokemon_list;
 
 public partial class AppShell : Shell
 {
