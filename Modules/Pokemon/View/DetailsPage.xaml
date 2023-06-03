@@ -28,17 +28,27 @@
                 </Image.Source>
             </Image>
 
-            <VerticalStackLayout Padding="10" Spacing="10">
-                <Label Style="{StaticResource MediumLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>
-                <Label Style="{StaticResource MediumLabel}" Text="{Binding PokemonDetails.height, StringFormat='Height: {0} cm'}" TextColor="Black"/>
+            <VerticalStackLayout Padding="10" Spacing="10" HorizontalOptions="Center">
+                <Label Style="{StaticResource LargeLabel}" Text="{Binding PokemonDetails.weight, StringFormat='Weight: {0} kg'}" TextColor="Black"/>
+                <Label Style="{StaticResource LargeLabel}" Text="{Binding PokemonDetails.height, StringFormat='Height: {0} cm'}" TextColor="Black"/>
             </VerticalStackLayout>
 
-            <Label Style="{StaticResource LargeLabel}" Text="Types:" TextColor="Black"/>
             <CollectionView ItemsSource="{Binding PokemonDetails.types}"
-                            SelectionMode="None" HorizontalOptions="Center">
+                            SelectionMode="None"
+                            HorizontalOptions="Center">
+                <CollectionView.Header>
+                    <Label Style="{StaticResource LargeLabel}"
+                           IsVisible="{Binding IsNotBusy}"
+                           Text="Types:" 
+                           TextColor="Black"
+                           HorizontalOptions="Center"/>
+                </CollectionView.Header>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Label Style="{StaticResource MediumLabel}" Text="{Binding}" TextColor="Black"/>
+                        <Label Style="{StaticResource MediumLabel}" 
+                               Text="{Binding}" 
+                               TextColor="Black"
+                               HorizontalOptions="Center"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

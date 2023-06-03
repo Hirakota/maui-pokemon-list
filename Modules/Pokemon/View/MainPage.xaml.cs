@@ -4,10 +4,10 @@ namespace maui_pokemon_list.Modules.Pokemon.View;
 
 public partial class MainPage : ContentPage
 {
-	public MainPage(PokemonListPresenter viewModel)
+	public MainPage(PokemonListPresenter presenter)
 	{
         InitializeComponent();
-        BindingContext = viewModel;
+        BindingContext = presenter;
     }
 }
 

@@ -14,9 +14,11 @@ public class PokemonService
         httpClient = new HttpClient();
     }
 
-    public async Task<List<PokemonModel>> GetPokemons()
+    public async Task<List<PokemonModel>> GetPokemons(int offset)
     {
-        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>(baseUri + $"?offset={0}");
+        string uri = $"{baseUri}?offset={offset}";
+
+        Dictionary<string, object> rawData = await GetAsync<Dictionary<string, object>>(uri);
 
         return DataAdapter.ConvertDictionaryIntoPokemonList(rawData);
     }
@@ -28,21 +30,21 @@ public class PokemonService
         return DataAdapter.ConvertDictionaryIntoPokemonDetails(rawData);
     }
 
-    private async Task<T> GetAsync<T>(string url, bool forceRefresh = false)
+    private async Task<T> GetAsync<T>(string url, bool forceRefresh = true)
     {
         var json = string.Empty;
 
         if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             return Barrel.Current.Get<T>(url);
 
-        if (!forceRefresh && !Barrel.Current.IsExpired(url))
-            return Barrel.Current.Get<T>(url);
+        /*if (!forceRefresh && !Barrel.Current.IsExpired(url))
+            return Barrel.Current.Get<T>(url);*/
 
         try
         {
             json = await httpClient.GetStringAsync(url);
 
-            Barrel.Current.Add(key: url, data: json, expireIn: TimeSpan.FromDays(7));
+            Barrel.Current.Add(key: url, data: json, expireIn: TimeSpan.FromHours(2));
 
             return JsonSerializer.Deserialize<T>(json);
         }

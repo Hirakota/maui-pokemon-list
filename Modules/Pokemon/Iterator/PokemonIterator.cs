@@ -12,13 +12,15 @@ public class PokemonIterator
         this.pokemonService = pokemonService;
     }
 
-    public async Task<List<PokemonModel>> GetPokemons()
+    public async Task<List<PokemonModel>> GetPokemons(int page = 0)
     {
         List<PokemonModel> pokemons = new();
 
+        var offset = 20 * page;
+
         try
         {
-            pokemons = await pokemonService.GetPokemons();
+            pokemons = await pokemonService.GetPokemons(offset);
 
         }
         catch (Exception ex)

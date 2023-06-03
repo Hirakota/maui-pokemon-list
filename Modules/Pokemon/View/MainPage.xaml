@@ -7,31 +7,42 @@
              x:DataType="presenter:PokemonListPresenter"
              Title="Pokemon List">
 
-    <Grid RowDefinitions="*,Auto">
-        <ListView ItemsSource="{Binding Pokemons}" Margin="10">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="entity:PokemonModel">
-                    <ViewCell>
-                        <Frame Style="{StaticResource CardView}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer 
+    <CollectionView ItemsSource="{Binding Pokemons}" 
+                    VerticalOptions="FillAndExpand"
+                    RemainingItemsThreshold="1"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMorePokemonsCommand}">
+        <CollectionView.Header>
+            <StackLayout>
+                <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                       IsRunning="{Binding IsBusy}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"
+                                       HorizontalOptions="Center"
+                                       Color="{StaticResource Primary}"/>
+            </StackLayout>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="entity:PokemonModel">
+                <Frame Style="{StaticResource CardView}">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer 
                                         Command="{Binding Source={RelativeSource AncestorType={x:Type presenter:PokemonListPresenter}}, Path=GoToDetailsCommand}"
                                         CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <Label Text="{Binding name}" TextColor="Black"/>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
-                           IsRunning="{Binding IsBusy}"
-                           HorizontalOptions="Fill"
-                           VerticalOptions="Center"
-                           Color="{StaticResource Primary}"
-                           Grid.RowSpan="2"
-                           Grid.ColumnSpan="2"/>
-    </Grid>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{Binding name}" TextColor="Black"/>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <StackLayout>
+                <ActivityIndicator IsVisible="{Binding IsLoading}"
+                                       IsRunning="{Binding IsLoading}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"
+                                       HorizontalOptions="Center"
+                                       Color="{StaticResource Primary}"/>
+            </StackLayout>
+        </CollectionView.Footer>
+    </CollectionView>
 
 </ContentPage>
