@@ -37,8 +37,8 @@ public class PokemonService
         if (Connectivity.NetworkAccess != NetworkAccess.Internet)
             return Barrel.Current.Get<T>(url);
 
-        /*if (!forceRefresh && !Barrel.Current.IsExpired(url))
-            return Barrel.Current.Get<T>(url);*/
+        if (!forceRefresh && !Barrel.Current.IsExpired(url))
+            return Barrel.Current.Get<T>(url);
 
         try
         {

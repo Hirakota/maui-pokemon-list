@@ -25,6 +25,7 @@ public static class MauiProgram
 
 		builder.Services.AddSingleton<PokemonService>();
 		builder.Services.AddSingleton<PokemonIterator>();
+		builder.Services.AddSingleton<Router>();
 
 		builder.Services.AddTransient<MainPage>();
 		builder.Services.AddTransient<PokemonListPresenter>();

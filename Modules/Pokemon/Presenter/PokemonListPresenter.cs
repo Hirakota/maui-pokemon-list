@@ -8,14 +8,14 @@ namespace maui_pokemon_list.Modules.Pokemon.Presenter;
 public partial class PokemonListPresenter : BasePokemonPresenter
 {
     private int page = 0;
+
     public ObservableCollection<PokemonModel> Pokemons { get; set; } = new();
 
     [ObservableProperty]
     private bool isLoading = false;
 
-
     public PokemonListPresenter(PokemonIterator pokemonIterator) : base(pokemonIterator)
-    { 
+    {
         _ = GetPokemons();
     }
 
@@ -64,10 +64,6 @@ public partial class PokemonListPresenter : BasePokemonPresenter
         if (pokemon == null)
             return;
 
-
-        await Shell.Current.GoToAsync(nameof(DetailsPage), false, new Dictionary<string, object>
-        {
-            { "Pokemon", pokemon }
-        });
+        await Router.NavigateToPokemonDetails(pokemon);
     }
 }
