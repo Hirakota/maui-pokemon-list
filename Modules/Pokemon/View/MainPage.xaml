@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="maui_pokemon_list.Modules.Pokemon.View.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:entity="clr-namespace:maui_pokemon_list.Modules.Pokemon.Entity"
+             xmlns:presenter="clr-namespace:maui_pokemon_list.Modules.Pokemon.Presenter"
+             x:DataType="presenter:PokemonListPresenter"
+             Title="Pokemon List">
+
+    <CollectionView ItemsSource="{Binding Pokemons}" 
+                    VerticalOptions="FillAndExpand"
+                    RemainingItemsThreshold="1"
+                    RemainingItemsThresholdReachedCommand="{Binding LoadMorePokemonsCommand}">
+        <CollectionView.Header>
+            <StackLayout>
+                <ActivityIndicator IsVisible="{Binding IsBusy}"
+                                       IsRunning="{Binding IsBusy}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"
+                                       HorizontalOptions="Center"
+                                       Color="{StaticResource Primary}"/>
+            </StackLayout>
+        </CollectionView.Header>
+        <CollectionView.ItemTemplate>
+            <DataTemplate x:DataType="entity:PokemonModel">
+                <Frame Style="{StaticResource CardView}">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type presenter:PokemonListPresenter}}, Path=GoToDetailsCommand}"
+                                        CommandParameter="{Binding .}"/>
+                    </Frame.GestureRecognizers>
+                    <Label Text="{Binding name}" TextColor="Black"/>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+        <CollectionView.Footer>
+            <StackLayout>
+                <ActivityIndicator IsVisible="{Binding IsLoading}"
+                                       IsRunning="{Binding IsLoading}"
+                                       WidthRequest="40"
+                                       HeightRequest="40"
+                                       HorizontalOptions="Center"
+                                       Color="{StaticResource Primary}"/>
+            </StackLayout>
+        </CollectionView.Footer>
+    </CollectionView>
+
+</ContentPage>
